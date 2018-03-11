@@ -14,15 +14,22 @@ TODO:
 #full list once we have the wrapper up and running.
 
 import requests
-import json
-import pprint
 from bs4 import BeautifulSoup
 import re
 
+# Virat Kohli - 253802
+# Joe Root = 303669
+# ABDV = 44936
+# Kane Williamson= 277906
+# Steven Smith = 267192
 playerid = "303669"
 ##First let us find all the games a player has played.
 
 def find_player_matches(playerid):
+    """
+    Finds the list of ODI innings the batsman has played, 
+    and finds the match numbers and returns it as a list.
+    """
     page = requests.get("http://stats.espncricinfo.com/ci/engine/player/"+playerid+".html?class=2;template=results;type=batting;view=innings")
     soup = BeautifulSoup(page.text)
     
