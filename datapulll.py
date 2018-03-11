@@ -19,19 +19,23 @@ import pprint
 from bs4 import BeautifulSoup
 import re
 
+playerid = "303669"
 ##First let us find all the games a player has played.
 
-page = requests.get("http://stats.espncricinfo.com/ci/engine/player/303669.html?class=2;template=results;type=batting;view=innings")
-soup = BeautifulSoup(page.text)
-
-player_match_list = soup.find_all(name='a', attrs={"title":"view the scorecard for this row"})
-
-#From the above list we need to parse out the match numbers which are part of 
-#the link. part after the /match/ and before the .html
-match_list = []
-for each in player_match_list:
-    a = str(each)
-    b = re.sub('<a href="/ci/engine/match/', "", a)
-    b = b.split(".")       
-    match_list.append(b[0])
+def find_player_matches(playerid):
+    page = requests.get("http://stats.espncricinfo.com/ci/engine/player/"+playerid+".html?class=2;template=results;type=batting;view=innings")
+    soup = BeautifulSoup(page.text)
+    
+    player_match_list = soup.find_all(name='a', attrs={"title":"view the scorecard for this row"})
+    
+    #From the above list we need to parse out the match numbers which are part of 
+    #the link. part after the /match/ and before the .html
+    
+    match_list = []
+    for each in player_match_list:
+        a = str(each)
+        b = re.sub('<a href="/ci/engine/match/', "", a)
+        b = b.split(".")       
+        match_list.append(b[0])
+    return match_list
     
