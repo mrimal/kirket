@@ -103,3 +103,5 @@ ENV/
 # Path files
 paths.py
 paths*
+
+data/*
