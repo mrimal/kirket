@@ -104,4 +104,5 @@ ENV/
 paths.py
 paths*
 
+data/
 data/*
