@@ -7,3 +7,11 @@ What happened to the good old days of getting your eye in for a while, playing s
 
 ## Requirements: 
 I'll be doing this in Python 2.7 with package requirements added on as I go on. 
+
+## Packages:
+* BeautifulSoup
+* pandas
+* numpy
+* json
+* requests
+* matplotlib
