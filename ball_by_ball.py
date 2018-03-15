@@ -15,8 +15,6 @@ import numpy as np
 import datapull
 import os 
 
-datadirectory = "data" 
-
 batsman = datapull.find_player_matches('44936')
 
 final_frame = pd.DataFrame()
@@ -25,12 +23,7 @@ for game_id in batsman[1:8]:
 	
     innings1 = requests.get('http://www.espncricinfo.com/ci/engine/match/gfx/%s.json?inning=1;template=wagon'%(game_id))
     innings2 = requests.get('http://www.espncricinfo.com/ci/engine/match/gfx/%s.json?inning=2;template=wagon'%(game_id))
-    
-    try:
-        os.stat(datadirectory)
-    except:
-        os.mkdir(datadirectory)
-        
+            
     data_dict = json.loads(innings1.content)
     data_dict2 = json.loads(innings2.content)    
     df = pd.DataFrame.from_dict(data_dict)
