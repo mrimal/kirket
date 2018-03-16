@@ -3,11 +3,6 @@
 
 @author: mpr
 
-TODO: 
-    Joe Root :
-        http://stats.espncricinfo.com/ci/engine/player/303669.html?class=2;template=results;type=batting;view=innings
-    This is the list to pull from, from here pull the match numbers, and then the data dump.g
-    
 """
 
 #Currently trying it out with Joe Root's debut match. Can extend it to the 
@@ -22,7 +17,6 @@ import re
 # ABDV = 44936
 # Kane Williamson= 277906
 # Steven Smith = 267192
-playerid = "303669"
 ##First let us find all the games a player has played.
 
 def find_player_matches(playerid):

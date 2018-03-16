@@ -12,55 +12,74 @@ import requests
 import json
 import pandas as pd
 import numpy as np
-import datapull
 import os 
+import datapull
 
-batsman = datapull.find_player_matches('44936')
+#career_matches = datapull.find_player_matches('44936')
 
-final_frame = pd.DataFrame()
+batsman_id = {'ViratKohli':'253802','JoeRoot':'303669','ABDV':'44936',
+              'KaneWilliamson':'277906','StevenSmith':'267192'}
 
-for game_id in batsman[1:8]:
-	
-    innings1 = requests.get('http://www.espncricinfo.com/ci/engine/match/gfx/%s.json?inning=1;template=wagon'%(game_id))
-    innings2 = requests.get('http://www.espncricinfo.com/ci/engine/match/gfx/%s.json?inning=2;template=wagon'%(game_id))
+def ball_by_ball(career_matches, player_number):
+    final_frame = pd.DataFrame()
+    for game_id in career_matches:
+    	
+        innings1 = requests.get('http://www.espncricinfo.com/ci/engine/match/gfx/%s.json?inning=1;template=wagon'%(game_id))
+        innings2 = requests.get('http://www.espncricinfo.com/ci/engine/match/gfx/%s.json?inning=2;template=wagon'%(game_id))
+                
+        data_dict = json.loads(innings1.content)
+        data_dict2 = json.loads(innings2.content)    
+        df = pd.DataFrame(data_dict)
+        df2 = pd.DataFrame(data_dict2)
+        df['inning'] = 1
+        df2['inning'] = 2
+        
+        df = df.append(df2)
+        
+        del df2 
+        
+        def f(i):
+            return i['bat'], i['bowl'], i['o_u'], i['ovr'], i['r'], i['r_t']
             
-    data_dict = json.loads(innings1.content)
-    data_dict2 = json.loads(innings2.content)    
-    df = pd.DataFrame.from_dict(data_dict)
-    df2 = pd.DataFrame(data_dict2)
-    df['inning'] = 1
-    df2['inning'] = 2
-    
-    df = df.append(df2)
-    
-    del df2 
-    
-    def f(i):
-        return i['bat'], i['bowl'], i['o_u'], i['ovr'], i['r'], i['r_t']
+        df['batsman'], df['bowler'], df['ball_num'], df['ovr'], df['runs_batter'], df['runs_w_extras'] = zip(*df.runs.apply(f))
         
-    df['batsman'], df['bowler'], df['ball_num'], df['ovr'], df['runs_batter'], df['runs_w_extras'] = zip(*df.runs.apply(f))
-    
-    for param in ['ovr', 'runs_batter', 'runs_w_extras']:
-        df[param] = df[param].astype(float)    
+        for param in ['ovr', 'runs_batter', 'runs_w_extras']:
+            df[param] = df[param].astype(float)    
+            
+        df = df.drop('runs', axis=1)
         
-    df = df.drop('runs', axis=1)
+        df = df[df['batsman'] == player_number]
+        
+        df = df.reset_index(drop=True)
+        
+        df['ball_no'] = df.index + 1
     
-    df = df[df['batsman'] == '44936']
-    
-    df = df.reset_index(drop=True)
-    
-    df['ball_no'] = df.index + 1
+        final_frame = final_frame.append(df)
+        
+    ball_by_ball_df = final_frame.groupby(by='ball_no', as_index=False).mean()
+    return ball_by_ball_df
 
-    final_frame = final_frame.append(df)
-    
-data = final_frame.groupby(by='ball_no', as_index=False).mean()
 
 try:
     os.stat("playerdata")
 except:
     os.mkdir("playerdata")
 
-data.to_csv("playerdata/AbdV.csv")
+# Now looping over the batsman's names to get their full career info and then 
+# getting the list of matches plus the scores
+final_dataset = pd.DataFrame()
 
-#Pandas plot to see if the thing works
+for key, value in batsman_id.iteritems():
+    career_matches = datapull.find_player_matches(value)
+    career_runs = ball_by_ball(career_matches, value)
+    final_dataset = final_dataset.append(career_runs)
+    print(career_runs)
+    filename = os.path.join("playerdata", key)
+    filename = filename + ".csv"
+    career_runs.to_csv(filename, encoding='utf-8')
 
+#TODO:
+#Actual graphing. 
+#Additionally an automated system to type a player's name and 
+#lookup the player numbers rather than creating a dictionary 
+#would be ideal.
