@@ -22,7 +22,7 @@ batsman_id = {'ViratKohli':'253802','JoeRoot':'303669','ABDV':'44936',
 
 def ball_by_ball(career_matches, player_number):
     final_frame = pd.DataFrame()
-    for game_id in career_matches:
+    for game_id in career_matches[1:10]:
     	
         innings1 = requests.get('http://www.espncricinfo.com/ci/engine/match/gfx/%s.json?inning=1;template=wagon'%(game_id))
         innings2 = requests.get('http://www.espncricinfo.com/ci/engine/match/gfx/%s.json?inning=2;template=wagon'%(game_id))
@@ -56,8 +56,10 @@ def ball_by_ball(career_matches, player_number):
     
         final_frame = final_frame.append(df)
         
-    ball_by_ball_df = final_frame.groupby(by='ball_no', as_index=False).mean()
-    return ball_by_ball_df
+    #ball_by_ball_df = final_frame.groupby(by='ball_no', as_index=False).mean()
+    ball_by = final_frame.groupby('ball_no').aggregate({'ball_no':'size','runs_batter':'mean'}).rename(columns={'ball_no':'total_innings', 'runs_batter':'mean_runs'}).reset_index()
+    return ball_by
+    #return ball_by_ball_df
 
 
 try:

@@ -12,13 +12,6 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-# Virat Kohli - 253802
-# Joe Root = 303669
-# ABDV = 44936
-# Kane Williamson= 277906
-# Steven Smith = 267192
-##First let us find all the games a player has played.
-
 def find_player_matches(playerid):
     """
     Finds the list of ODI innings the batsman has played, 
