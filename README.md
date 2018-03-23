@@ -9,9 +9,20 @@ What happened to the good old days of getting your eye in for a while, playing s
 I'll be doing this in Python 2.7 with package requirements added on as I go on. 
 
 ## Packages:
-* BeautifulSoup
-* pandas
-* numpy
-* json
-* requests
-* matplotlib
+*beautifulsoup4==4.6.0
+*pandas==0.22.0
+*numpy==1.14.0
+*json
+*requests==2.18.4
+*matplotlib==2.1.2
+
+## Installing the requirements directly
+
+The requirements can directly be installing using 
+```
+pip install -r requirements.txt #Python2
+pip3 install -r requirements.txt #Python3
+```
+
+
+
