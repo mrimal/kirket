@@ -19,8 +19,12 @@ data.
 
 """
 
-import pandas as pd
+
 import glob
+import pandas as pd
+#Plotly needs be > v 1.91 for offline to work
+#from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
+#import plotly.graph_objs as go
 
 path = 'playerdata/*.csv'
 
@@ -33,6 +37,23 @@ def cumalative_runs(filedirectory):
         filename = filename.replace('.csv','')
         df['cumal_runs'] = df['mean_runs'].cumsum()
         df['batsman'] = filename
+        df['total_innings'] = df['total_innings'].astype(float)
         main_df = main_df.append(df)
         
     main_df = main_df.drop('Unnamed: 0', axis=1)
+    return main_df 
+
+dataset = cumalative_runs(path)
+
+#Getting a list of individual players
+players = [each for each in dataset['batsman'].unique()]
+
+# Creating the figure for the plot.
+figure = {
+    'data': [],
+    'layout': {},
+    'frames': []
+}
+for each in players:
+    bb = dataset[(dataset['batsman']== each) & (dataset['total_innings'] >= 30)]
+    bb.plot(x='ball_no', y='mean_runs')
