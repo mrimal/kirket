@@ -18,7 +18,7 @@ I'll be doing this in Python 2.7 with package requirements added on as I go on.
 
 ## Installing the requirements directly
 
-The requirements can directly be installing using 
+The requirements can directly be installed using 
 ```
 pip install -r requirements.txt #Python2
 pip3 install -r requirements.txt #Python3
