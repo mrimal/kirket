@@ -77,8 +77,5 @@ for key, value in batsman_id.iteritems():
     filename = filename + ".csv"
     career_runs.to_csv(filename, encoding='utf-8')
 
-#TODO:
-#Actual graphing. 
-#Additionally an automated system to type a player's name and 
-#lookup the player numbers rather than creating a dictionary 
-#would be ideal.
+
+
