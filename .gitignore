@@ -106,3 +106,6 @@ paths*
 
 data/
 data/*
+
+#Adding graph.py for now
+graph.py
