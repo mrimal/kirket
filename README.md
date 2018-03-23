@@ -9,12 +9,12 @@ What happened to the good old days of getting your eye in for a while, playing s
 I'll be doing this in Python 2.7 with package requirements added on as I go on. 
 
 ## Packages:
-*beautifulsoup4==4.6.0
-*pandas==0.22.0
-*numpy==1.14.0
-*json
-*requests==2.18.4
-*matplotlib==2.1.2
+* beautifulsoup4==4.6.0
+* pandas==0.22.0
+* numpy==1.14.0
+* json
+* requests==2.18.4
+* matplotlib==2.1.2
 
 ## Installing the requirements directly
 
