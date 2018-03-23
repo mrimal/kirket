@@ -54,6 +54,4 @@ figure = {
     'layout': {},
     'frames': []
 }
-for each in players:
-    bb = dataset[(dataset['batsman']== each) & (dataset['total_innings'] >= 30)]
-    bb.plot(x='ball_no', y='mean_runs')
+
