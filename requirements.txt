@@ -2,7 +2,7 @@
 
 beautifulsoup4==4.6.0
 pandas==0.22.0
-numpy==1.14.0
+numpy==1.22.0
 json
 requests==2.20.0
 matplotlib==2.1.2
